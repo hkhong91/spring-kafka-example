@@ -1,7 +1,7 @@
 package com.example.kafka.listener;
 
 import com.example.kafka.constant.KafkaTopic;
-import com.example.kafka.message.DemoMessage;
+import com.example.kafka.message.OriginalMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.context.annotation.Configuration;
@@ -12,13 +12,13 @@ import org.springframework.messaging.handler.annotation.SendTo;
 
 @Configuration
 @Slf4j
-public class DemoRetryListener implements AcknowledgingMessageListener<String, DemoMessage> {
+public class RetryListener implements AcknowledgingMessageListener<String, OriginalMessage> {
 
   @Override
-  @KafkaListener(topics = {KafkaTopic.ORIGINAL_RETRY}, errorHandler = "kafkaListenerErrorHandler")
-  @SendTo(KafkaTopic.ORIGINAL_DEAD)
-  public void onMessage(ConsumerRecord<String, DemoMessage> demo, Acknowledgment acknowledgment) {
-    DemoMessage message = demo.value();
+  @KafkaListener(topics = {KafkaTopic.RETRY}, errorHandler = "kafkaListenerErrorHandler")
+  @SendTo(KafkaTopic.DEAD)
+  public void onMessage(ConsumerRecord<String, OriginalMessage> demo, Acknowledgment acknowledgment) {
+    OriginalMessage message = demo.value();
     log.info("consume >> topic: {}, partition: {}, offset: {}, message: {}", demo.topic(), demo.partition(), demo.offset(), message.toString());
     acknowledgment.acknowledge();
   }

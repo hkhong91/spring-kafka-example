@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class DemoMessage {
+public class OriginalMessage {
 
   private long number;
 }
