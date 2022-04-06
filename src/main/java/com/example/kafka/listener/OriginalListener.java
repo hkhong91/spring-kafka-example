@@ -16,7 +16,7 @@ public class OriginalListener {
 
   @KafkaListener(topics = {KafkaTopic.ORIGINAL}, errorHandler = KafkaHandlerName.DEFAULT)
   @SendTo(KafkaTopic.ORIGINAL_RETRY)
-  public void consumeOriginalMessage(OriginalMessage message,
+  public void consumeMessage(OriginalMessage message,
                                      @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
                                      @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
                                      @Header(KafkaHeaders.OFFSET) long offset) {
