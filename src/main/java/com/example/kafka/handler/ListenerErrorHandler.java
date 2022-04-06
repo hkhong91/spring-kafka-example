@@ -1,16 +1,17 @@
 package com.example.kafka.handler;
 
+import com.example.kafka.constant.KafkaHandlerName;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.listener.KafkaListenerErrorHandler;
-import org.springframework.stereotype.Component;
 
-@Component
+@Configuration
 @Slf4j
 public class ListenerErrorHandler {
 
-  @Bean
-  public KafkaListenerErrorHandler kafkaListenerErrorHandler() {
+  @Bean(KafkaHandlerName.DEFAULT)
+  public KafkaListenerErrorHandler defaultKafkaListenerErrorHandler() {
     return (message, exception) -> {
       log.error(exception.getMessage(), exception);
       return message;

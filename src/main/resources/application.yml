@@ -15,6 +15,6 @@ spring:
         spring.json.trusted.packages: com.example.kafka.message
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
       auto-offset-reset: latest
-      enable-auto-commit: false
+      enable-auto-commit: true
     listener:
-      ack-mode: manual_immediate
+      ack-mode: RECORD
