@@ -16,19 +16,21 @@ public class OriginalListener {
 
   @KafkaListener(topics = {KafkaTopic.ORIGINAL}, errorHandler = KafkaHandlerName.DEFAULT)
   @SendTo(KafkaTopic.ORIGINAL_RETRY)
-  public void consumeMessage(OriginalMessage message,
-                                     @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
-                                     @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
-                                     @Header(KafkaHeaders.OFFSET) long offset) {
+  public OriginalMessage onMessage(OriginalMessage message,
+                                   @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+                                   @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
+                                   @Header(KafkaHeaders.OFFSET) long offset) {
     log.info("consume >> topic: {}, partition: {}, offset: {}, message: {}", topic, partition, offset, message.toString());
+    return message;
   }
 
   @KafkaListener(topics = {KafkaTopic.ORIGINAL_RETRY}, errorHandler = KafkaHandlerName.DEFAULT)
   @SendTo(KafkaTopic.ORIGINAL_DEAD)
-  public void consumeRetryMessage(OriginalMessage message,
-                                  @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
-                                  @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
-                                  @Header(KafkaHeaders.OFFSET) long offset) {
+  public OriginalMessage onMessageRetry(OriginalMessage message,
+                                        @Header(KafkaHeaders.RECEIVED_TOPIC) String topic,
+                                        @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition,
+                                        @Header(KafkaHeaders.OFFSET) long offset) {
     log.info("consume >> topic: {}, partition: {}, offset: {}, message: {}", topic, partition, offset, message.toString());
+    return message;
   }
 }

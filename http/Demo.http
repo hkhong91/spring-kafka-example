@@ -1,1 +1,1 @@
-POST http://localhost:8080/messages?number=796
+POST http://localhost:8080/messages?number=79

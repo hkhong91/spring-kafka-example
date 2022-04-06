@@ -18,3 +18,13 @@ spring:
       enable-auto-commit: true
     listener:
       ack-mode: RECORD
+  datasource:
+    url: jdbc:mysql://localhost:3306/demo
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    username: root
+    password: 1234
+  batch:
+    job:
+      names: ${job.name:NONE}
+    jdbc:
+      initialize-schema: always
