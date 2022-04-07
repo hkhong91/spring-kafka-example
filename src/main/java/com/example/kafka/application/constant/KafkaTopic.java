@@ -1,4 +1,4 @@
-package com.example.kafka.constant;
+package com.example.kafka.application.constant;
 
 public class KafkaTopic {
   public static final String ORIGINAL = "original";

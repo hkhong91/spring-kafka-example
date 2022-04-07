@@ -1,11 +1,14 @@
-package com.example.kafka.controller;
+package com.example.kafka.application.controller;
 
-import com.example.kafka.constant.KafkaTopic;
-import com.example.kafka.message.OriginalMessage;
+import com.example.kafka.application.constant.KafkaTopic;
+import com.example.kafka.application.message.OriginalMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.apache.kafka.clients.producer.RecordMetadata;
+import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.launch.JobLauncher;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFutureCallback;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
+
 @RestController
 @RequestMapping("/messages")
 @RequiredArgsConstructor
@@ -21,6 +26,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class MessageController {
 
   private final KafkaTemplate<String, OriginalMessage> kafkaTemplate;
+  private final Job originalDlqJob;
+  private final JobLauncher jobLauncher;
 
   @PostMapping
   public void sendMessage(@RequestParam long number) {
@@ -39,5 +46,12 @@ public class MessageController {
             log.info("produce >> topic: {}, partition: {}, offset: {}, message: {}", data.topic(), data.partition(), data.offset(), value.toString());
           }
         });
+  }
+
+  @PostMapping("/dlq-processing")
+  public void processDlq() throws Exception {
+    jobLauncher.run(originalDlqJob, new JobParametersBuilder()
+        .addDate("date", new Date())
+        .toJobParameters());
   }
 }

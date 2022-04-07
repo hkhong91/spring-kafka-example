@@ -12,7 +12,7 @@ spring:
       value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
       group-id: example
       properties:
-        spring.json.trusted.packages: com.example.kafka.message
+        spring.json.trusted.packages: com.example.kafka.application.message
         spring.deserializer.value.delegate.class: org.springframework.kafka.support.serializer.JsonDeserializer
       auto-offset-reset: latest
       enable-auto-commit: true
@@ -23,6 +23,14 @@ spring:
     driver-class-name: com.mysql.cj.jdbc.Driver
     username: root
     password: 1234
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    open-in-view: false
   batch:
     job:
       names: ${job.name:NONE}

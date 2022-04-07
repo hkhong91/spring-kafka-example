@@ -1,6 +1,6 @@
-package com.example.kafka.handler;
+package com.example.kafka.application.handler;
 
-import com.example.kafka.constant.KafkaHandlerName;
+import com.example.kafka.application.constant.KafkaHandlerName;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
